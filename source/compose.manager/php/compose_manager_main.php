@@ -416,15 +416,30 @@ function editStack(myID) {
   });
 }
 
-function build_override_input_table( id, value, label, placeholder, disable=false) {
+function build_override_input_table( id, value, label, placeholder, disable=false, showBrowse=false) {
   var disabled = disable ? `disabled` : ``;
   html = `<div style="display:table; width:100%;">`;
-  html += `<label for="${id}" style="width:75px; display:table-cell;">${label}</label>`;
-  html += `<input type="text" id="${id}" class="swal-content__input" placeholder="${placeholder}" value="${value}" style="width:100%; display:table-cell;" ${disabled}>`;
+  html += `<label for="${id}" style="width:75px; display:table-cell; vertical-align:middle;">${label}</label>`;
+  html += `<div style="display:table-cell; width:100%;">`;
+  html += `<div style="display:flex; gap:5px; align-items:center;">`;
+  html += `<input type="text" id="${id}" class="swal-content__input" placeholder="${placeholder}" value="${value}" style="flex:1; margin:0;" ${disabled}>`;
+  if (showBrowse && !disable) {
+    html += `<button type="button" onclick="browseForIcon('${id}')" style="white-space:nowrap; padding:4px 8px;">Browse</button>`;
+  }
+  html += `</div>`;
+  html += `</div>`;
   html += `</div>`;
   html += `<br>`;
 
   return html;
+}
+
+function browseForIcon(inputId) {
+  var popup = window.open('/webGui/include/SelectPath.php?default=/mnt/user&filter=png,jpg,jpeg,gif,svg,ico', 'FileBrowser', 'width=600,height=400,scrollbars=yes,resizable=yes');
+  window.pickPath = function(path) {
+    document.getElementById(inputId).value = path;
+    popup.close();
+  };
 }
 
 function override_find_labels( primary, secondary, label ) {
@@ -475,7 +490,7 @@ function generateOverride(myID, myProject=null) {
                 html += `<br>`;
 
                 var icon_value = override_find_labels(override_doc.services[service_key], main_doc.services[service_key], icon_label);
-                html += build_override_input_table(`${service_key}_icon`, icon_value, "Icon", "icon");
+                html += build_override_input_table(`${service_key}_icon`, icon_value, "Icon", "URL or /mnt/... path", false, true);
                 
                 var webui_value = override_find_labels(override_doc.services[service_key], main_doc.services[service_key], webui_label);
                 html += build_override_input_table(`${service_key}_webui`, webui_value, "Web UI", "web ui");
