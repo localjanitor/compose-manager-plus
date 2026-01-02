@@ -56,20 +56,23 @@
 
   .stack-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 12px;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 280px));
+    gap: 10px;
     padding: 10px 0;
+    justify-content: start;
   }
 
   .stack-card {
     background: linear-gradient(135deg, rgba(255,140,47,0.08) 0%, rgba(255,140,47,0.02) 100%);
     border: 1px solid rgba(255,140,47,0.3);
     border-radius: 8px;
-    padding: 12px;
+    padding: 10px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
     transition: border-color 0.2s, box-shadow 0.2s;
+    min-width: 0;
+    overflow: hidden;
   }
 
   .stack-card:hover {
@@ -80,21 +83,24 @@
   .stack-card-header {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 2px;
+    min-width: 0;
   }
 
   .stack-name {
-    font-size: 1rem;
+    font-size: 0.95rem;
     cursor: pointer;
     color: #ff8c2f;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
+    min-width: 0;
   }
 
   .stack-name .fa-gear {
     opacity: 0.7;
     transition: opacity 0.2s;
+    flex-shrink: 0;
   }
 
   .stack-name:hover .fa-gear {
@@ -107,16 +113,16 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     flex: 1;
+    min-width: 0;
   }
 
   .stack-desc {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     color: #888;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     display: block;
-    min-height: 1em;
   }
 
   .stack-desc:empty {
@@ -127,84 +133,87 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
+    flex-wrap: nowrap;
   }
 
   .stack-buttons {
-    display: flex;
-    gap: 4px;
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 3px !important;
+    flex-shrink: 0;
+    flex-wrap: nowrap !important;
   }
 
-  .stack-btn {
-    width: 32px;
-    height: 32px;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid rgba(255,140,47,0.5);
-    border-radius: 4px;
-    background: transparent;
-    color: #ff8c2f;
-    cursor: pointer;
-    transition: background 0.2s, border-color 0.2s;
+  /* Force icon-only buttons - override Unraid defaults */
+  .stack-card button.stack-btn,
+  button.stack-btn {
+    width: 28px !important;
+    height: 28px !important;
+    min-width: 28px !important;
+    max-width: 28px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 4px !important;
+    background: transparent !important;
+    cursor: pointer !important;
+    font-size: 13px !important;
+    line-height: 1 !important;
+    box-sizing: border-box !important;
   }
 
-  .stack-btn:hover {
-    background: rgba(255,140,47,0.15);
-    border-color: #ff8c2f;
+  .stack-card button.stack-btn.up-button,
+  button.stack-btn.up-button {
+    color: #4caf50 !important;
+    border: 1px solid rgba(76,175,80,0.5) !important;
   }
 
-  .stack-btn.up-button {
-    color: #4caf50;
-    border-color: rgba(76,175,80,0.5);
+  .stack-card button.stack-btn.up-button:hover,
+  button.stack-btn.up-button:hover {
+    background: rgba(76,175,80,0.15) !important;
+    border-color: #4caf50 !important;
   }
 
-  .stack-btn.up-button:hover {
-    background: rgba(76,175,80,0.15);
-    border-color: #4caf50;
+  .stack-card button.stack-btn.down-button,
+  button.stack-btn.down-button {
+    color: #f44336 !important;
+    border: 1px solid rgba(244,67,54,0.5) !important;
   }
 
-  .stack-btn.down-button {
-    color: #f44336;
-    border-color: rgba(244,67,54,0.5);
+  .stack-card button.stack-btn.down-button:hover,
+  button.stack-btn.down-button:hover {
+    background: rgba(244,67,54,0.15) !important;
+    border-color: #f44336 !important;
   }
 
-  .stack-btn.down-button:hover {
-    background: rgba(244,67,54,0.15);
-    border-color: #f44336;
+  .stack-card button.stack-btn.update-button,
+  button.stack-btn.update-button {
+    color: #2196f3 !important;
+    border: 1px solid rgba(33,150,243,0.5) !important;
   }
 
-  .stack-btn.update-button {
-    color: #2196f3;
-    border-color: rgba(33,150,243,0.5);
+  .stack-card button.stack-btn.update-button:hover,
+  button.stack-btn.update-button:hover {
+    background: rgba(33,150,243,0.15) !important;
+    border-color: #2196f3 !important;
   }
 
-  .stack-btn.update-button:hover {
-    background: rgba(33,150,243,0.15);
-    border-color: #2196f3;
-  }
-
+  /* Autostart switch container - scale down the Unraid switchButton */
   .stack-autostart {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
-
-  .stack-autostart input[type="checkbox"] {
-    margin: 0;
-  }
-
-  .autostart-label {
-    font-size: 0.7rem;
-    color: #888;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    display: flex !important;
+    align-items: center !important;
+    flex-shrink: 0;
+    transform: scale(0.7);
+    transform-origin: right center;
+    margin-left: auto;
   }
 
   .stack-actions-bar {
-    margin-top: 15px;
-    padding-top: 15px;
+    margin-top: 12px;
+    padding-top: 12px;
     border-top: 1px solid rgba(255,140,47,0.2);
   }
 

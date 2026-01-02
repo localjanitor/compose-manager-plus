@@ -151,7 +151,6 @@ foreach ($composeProjects as $project) {
 
   $o .= "<div class='stack-autostart'>";
   $o .= "<input type='checkbox' class='auto_start' data-scriptName=".escapeshellarg($project)." id='autostart-$id' $autostart>";
-  $o .= "<label for='autostart-$id' class='autostart-label'>Auto</label>";
   $o .= "</div>";
 
   $o .= "</div>"; // stack-card-actions

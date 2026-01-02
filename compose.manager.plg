@@ -5,7 +5,7 @@
 <!ENTITY version     "2026.01.02">
 <!ENTITY launch      "Settings/&name;">
 <!ENTITY packageVER  "&version;">
-<!ENTITY packageMD5  "3ae38012995c54939d7e0d7004eeadc1">
+<!ENTITY packageMD5  "7a695287020840314115220bd5a8e7d4">
 <!ENTITY packageName "&name;-package-&packageVER;">
 <!ENTITY packagefile "&packageName;.txz">
 <!ENTITY github      "localjanitor/compose-manager-plus">
