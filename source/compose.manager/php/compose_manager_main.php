@@ -149,7 +149,7 @@ foreach ($composeProjects as $project) {
   }
   $o .= "</div>";
 
-  $o .= "<div class='stack-autostart'>";
+  $o .= "<div class='stack-autostart' title='Autostart: Start this stack automatically when the array starts'>";
   $o .= "<input type='checkbox' class='auto_start' data-scriptName=".escapeshellarg($project)." id='autostart-$id' $autostart>";
   $o .= "</div>";
 
