@@ -1,0 +1,139 @@
+Icon="cubes"
+Author="dcflachs"
+Title="Compose"
+Type="xmenu"
+Menu="Utilities"
+---
+<?php 
+include "/usr/local/emhttp/plugins/dynamix.docker.manager/include/DockerClient.php";
+require_once("/usr/local/emhttp/plugins/compose.manager/php/defines.php");
+$cfg = parse_plugin_cfg($sName);
+$ui_patch_button_type = (strcmp($cfg['PATCH_UI'],"true") == 0 && !isset($composemanDockerClientPatch)) ? "Button" : "Hidden";
+$ui_unpatch_button_type = (strcmp($cfg['PATCH_UI'],"false") == 0 && isset($composemanDockerClientPatch)) ? "Button" : "Hidden";
+
+$option_patch_ui = version_compare(parse_ini_file('/etc/unraid-version')['version'],'6.12.0-RC0', '>=');
+$ui_patch_help_class = $option_patch_ui ? "hidden" : "inline_help";
+
+$projects_exist = intval(shell_exec("ls -l ".$compose_root." | grep ^d | wc -l")) != 0;
+?>
+<style>
+  <?php
+      if ($option_patch_ui)
+      {
+        echo "dl:nth-last-of-type(2){display:none;}";
+      }
+  ?>
+</style>
+<script>
+var caURL = "/plugins/compose.manager/php/exec.php";
+
+function patchWebui() {
+  $.post(caURL,{action:'patchUI'}, function(data) {
+    window.location.reload();
+  })
+}
+
+function unpatchWebui() {
+  $.post(caURL,{action:'unPatchUI'}, function(data) {
+    window.location.reload();
+  })
+}
+
+function checkProjectFolder() {
+  var projects_folder_not_empty = <?php echo json_encode($projects_exist); ?>;
+  var original_folder = "<?php echo $cfg['PROJECTS_FOLDER'] ?>";
+
+  if(projects_folder_not_empty & ($(this).val() != original_folder))
+  {
+    $("#PROJECTS_FOLDER_WARNING").show();
+  }
+  else
+  {
+    $("#PROJECTS_FOLDER_WARNING").hide();
+  }
+}
+
+$(function() {
+  $('#PROJECTS_FOLDER').on("input", null, null, checkProjectFolder);
+});
+
+</script>
+
+<form markdown="1" name="compose_manager_settings" method="POST" action="/update.php" target="progressFrame">
+<input type="hidden" name="#file" value="<?=$sName?>/<?=$sName?>.cfg">
+
+_(Compose Project Directory)_:
+: <input type="text" name="PROJECTS_FOLDER" id="PROJECTS_FOLDER" autocomplete="off" spellcheck="false" value="<?=$cfg['PROJECTS_FOLDER']?>" placeholder="_(e.g.)_ /mnt/user/appdata/compose_projects" data-pickcloseonfile="true" data-pickfilter="img" data-pickroot="/mnt" data-pickfolders="true" required pattern="^\/(mnt\/.+\/.+)||(\/boot\/config\/plugins\/compose\.manager\/projects)$">
+  <a class='info nohand' id="PROJECTS_FOLDER_WARNING" onclick="HelpButton();return false;" style="display: none;">
+    <i class='fa fa-warning orb yellow-orb'></i>
+    <span style='left:18px'><strong>Projects exist that will not be moved to the new project folder.</strong></span>
+  </a>
+
+<blockquote class="inline_help" id="PROJECTS_FOLDER_HELP" style="display: none;">
+  Choose the folder in which compose.manager will store your stacks.<br>
+  <strong>WARNING: Changing this path will not automatically move your existing project folders.</strong>
+</blockquote>
+
+_(Compose Command Progress Display)_:
+: <select name="OUTPUTSTYLE">
+  <?=mk_option($cfg['OUTPUTSTYLE'], "basic", _("Basic"))?>
+  <?=mk_option($cfg['OUTPUTSTYLE'], "ttyd", _("Terminal"))?>
+  </select>
+
+<blockquote class="inline_help" style="display: none;">
+  Choose the style of output for plugin commands.<br>
+  When set to <strong>basic</strong> the output will be simple text as elsewhere in the webui.<br>
+  When set to <strong>ttyd</strong> the output will be a terminal window with colored text.
+</blockquote>
+
+_(Debug Logging)_:
+: <select name="DEBUG_TO_LOG">
+  <?=mk_option($cfg['DEBUG_TO_LOG'], "false", _("Disabled"))?>
+  <?=mk_option($cfg['DEBUG_TO_LOG'], "true", _("Enabled"))?>
+  </select>
+
+<blockquote class="inline_help" style="display: none;">
+  Enable debug logging.
+</blockquote>
+
+_(Recreate During Autostart)_:
+: <select name="AUTOSTART_FORCE_RECREATE">
+  <?=mk_option($cfg['AUTOSTART_FORCE_RECREATE'], "false", _("Disabled"))?>
+  <?=mk_option($cfg['AUTOSTART_FORCE_RECREATE'], "true", _("Enabled"))?>
+  </select>
+
+<blockquote class="inline_help" style="display: none;">
+  Use the --force-recreate option when autostarting stacks.<br> 
+  This will recreate each stack container on startup.<br>
+  This can work around an issue where containers refuse to autostart because the 
+  network they are attached to no longer exists.
+</blockquote>
+
+_(Show Compose in Header Menu)_:
+: <select name="SHOW_COMPOSE_IN_HEADER_MENU">
+  <?=mk_option($cfg['SHOW_COMPOSE_IN_HEADER_MENU'], "false", _("No"))?>
+  <?=mk_option($cfg['SHOW_COMPOSE_IN_HEADER_MENU'], "true", _("Yes"))?>
+  </select>
+
+<blockquote class="inline_help">
+  This will move the Compose Manager page to a separate tab in the Unraid Header menu.
+</blockquote>
+
+_(Patch unRAID WebUI)_:
+: <select name="PATCH_UI">
+  <?=mk_option($cfg['PATCH_UI'], "false", _("No"))?>
+  <?=mk_option($cfg['PATCH_UI'], "true", _("Yes"))?>
+  </select>
+  <span class="fa fa-question-circle fa-fw" onclick="HelpButton();return false;"></span>
+  <input type=<?=$ui_patch_button_type?> value="_(Patch)_" onclick="patchWebui()">
+  <input type=<?=$ui_unpatch_button_type?> value="_(Unpatch)_" onclick="unpatchWebui()">
+
+<blockquote class=<?=$ui_patch_help_class?> style="display: none;">
+  Apply patches to the webui to improve the integration of containers started by compose.manager.<br>
+  When set to <strong>yes</strong> the patches can be activated with the <strong>Patch</strong> button or by reboot.<br>
+  When set to <strong>no</strong> the patches can be removed with the <strong>Unpatch</strong> button or by reboot.<br>
+</blockquote>
+
+<input type="submit" name="#default" value="_(Default)_">
+: <input type="submit" name="#apply" value="_(Apply)_" disabled><input type="button" value="_(Done)_" onclick="done()">
+</form>

@@ -1,0 +1,225 @@
+  /* The container <div> - needed to position the dropdown content */
+  .dropdown {
+    position: absolute;
+    display: inline-block;
+  }
+
+  /* Dropdown Content (Hidden by Default) */
+  .dropdown-content {
+    display: none;
+    position: relative;
+    background-color: #f1f1f1;
+    min-width: 100px;
+    /* min-width: auto; */
+    z-index: 1;
+    right: 75px;
+  }
+
+  /* Links inside the dropdown */
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+
+  /* Change color of dropdown links on hover */
+  .dropdown-content a:hover {background-color: #ddd}
+
+  /* Show the dropdown menu on hover */
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+
+  .combo-btn-group-left {
+    border-right-style: none !important;
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  .combo-btn-group-right {
+    border-left-style: none !important;
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+    min-width: auto !important;
+    margin-right: 0 !important;
+  }
+
+  .combo-btn-subgroup {
+    display: inline;
+  }
+
+  /* ============================================
+     Responsive Grid Layout for Stack Cards
+     ============================================ */
+
+  .stack-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 12px;
+    padding: 10px 0;
+  }
+
+  .stack-card {
+    background: linear-gradient(135deg, rgba(255,140,47,0.08) 0%, rgba(255,140,47,0.02) 100%);
+    border: 1px solid rgba(255,140,47,0.3);
+    border-radius: 8px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .stack-card:hover {
+    border-color: rgba(255,140,47,0.6);
+    box-shadow: 0 2px 8px rgba(255,140,47,0.15);
+  }
+
+  .stack-card-header {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .stack-name {
+    font-size: 1rem;
+    cursor: pointer;
+    color: #ff8c2f;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .stack-name .fa-gear {
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+
+  .stack-name:hover .fa-gear {
+    opacity: 1;
+  }
+
+  .stack-title {
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 1;
+  }
+
+  .stack-desc {
+    font-size: 0.75rem;
+    color: #888;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: block;
+    min-height: 1em;
+  }
+
+  .stack-desc:empty {
+    display: none;
+  }
+
+  .stack-card-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .stack-buttons {
+    display: flex;
+    gap: 4px;
+  }
+
+  .stack-btn {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255,140,47,0.5);
+    border-radius: 4px;
+    background: transparent;
+    color: #ff8c2f;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+  }
+
+  .stack-btn:hover {
+    background: rgba(255,140,47,0.15);
+    border-color: #ff8c2f;
+  }
+
+  .stack-btn.up-button {
+    color: #4caf50;
+    border-color: rgba(76,175,80,0.5);
+  }
+
+  .stack-btn.up-button:hover {
+    background: rgba(76,175,80,0.15);
+    border-color: #4caf50;
+  }
+
+  .stack-btn.down-button {
+    color: #f44336;
+    border-color: rgba(244,67,54,0.5);
+  }
+
+  .stack-btn.down-button:hover {
+    background: rgba(244,67,54,0.15);
+    border-color: #f44336;
+  }
+
+  .stack-btn.update-button {
+    color: #2196f3;
+    border-color: rgba(33,150,243,0.5);
+  }
+
+  .stack-btn.update-button:hover {
+    background: rgba(33,150,243,0.15);
+    border-color: #2196f3;
+  }
+
+  .stack-autostart {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .stack-autostart input[type="checkbox"] {
+    margin: 0;
+  }
+
+  .autostart-label {
+    font-size: 0.7rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .stack-actions-bar {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255,140,47,0.2);
+  }
+
+  /* Dark theme adjustments */
+  body.black .stack-card,
+  body.gray .stack-card {
+    background: linear-gradient(135deg, rgba(255,140,47,0.1) 0%, rgba(255,140,47,0.03) 100%);
+  }
+
+  body.black .stack-desc,
+  body.gray .stack-desc {
+    color: #aaa;
+  }
+
+  body.black .autostart-label,
+  body.gray .autostart-label {
+    color: #aaa;
+  }
