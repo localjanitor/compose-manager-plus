@@ -2,10 +2,10 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name        "compose.manager">
 <!ENTITY author      "localjanitor">
-<!ENTITY version     "2026.01.02">
+<!ENTITY version     "2026.01.02c">
 <!ENTITY launch      "Settings/&name;">
 <!ENTITY packageVER  "&version;">
-<!ENTITY packageMD5  "7a695287020840314115220bd5a8e7d4">
+<!ENTITY packageMD5  "9d1ead73e678fa2f51a70a933b0bf017">
 <!ENTITY packageName "&name;-package-&packageVER;">
 <!ENTITY packagefile "&packageName;.txz">
 <!ENTITY github      "localjanitor/compose-manager-plus">
@@ -25,6 +25,8 @@
 >
 
 <CHANGES>
+###2026.01.02c
+- Fix grid layout issues
 ###2026.01.02
 - New responsive grid layout for stack cards
 - Compact icon buttons (Up/Down/Update)
